@@ -44,7 +44,7 @@
   --surface-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
   --modal-shadow: 0 40px 110px rgba(0, 0, 0, 0.55);
 
-  /* ---- Foto: hero, banners, header, loader, lightbox. Fijo, no cambia. ---- */
+  /* ---- Foto: hero, banners, header, loader. Fijo, no cambia. ---- */
   --photo-ink: #050506;
   --photo-panel: #101012;
   --photo-paper: #f4efe8;
@@ -77,8 +77,8 @@
 
 /* =========================================================
    TEMA CLARO: se activa solo por preferencia del sistema.
-   Las zonas con fotografia (hero, banners, header, loader,
-   lightbox) usan --photo-* y no cambian con el tema.
+   Las zonas con fotografia (hero, banners, header, loader)
+   usan --photo-* y no cambian con el tema.
    ========================================================= */
 @media (prefers-color-scheme: light) {
   :root {
@@ -105,7 +105,6 @@
 .hero,
 .site-header,
 .loader,
-.lightbox,
 .has-bg,
 .parallax-banner {
   --ink: var(--photo-ink);
@@ -148,8 +147,7 @@ html.is-loading {
   overflow: hidden;
 }
 
-body.wa-modal-open,
-body.lightbox-open {
+body.wa-modal-open {
   overflow: hidden;
 }
 
@@ -1256,8 +1254,7 @@ main section[id] {
   background: var(--ink);
 }
 
-.why-us,
-.gallery {
+.why-us {
   background: var(--ink-2);
 }
 
@@ -1267,7 +1264,6 @@ main section[id] {
 
 .services::before,
 .why-us::before,
-.gallery::before,
 .contact::before {
   content: "";
   position: absolute;
@@ -1278,15 +1274,13 @@ main section[id] {
     radial-gradient(ellipse 50% 45% at 12% 22%, color-mix(in srgb, var(--red) 6%, transparent), transparent 70%);
 }
 
-.gallery::before,
 .why-us::before {
   background:
     radial-gradient(ellipse 70% 40% at 50% 0%, var(--ghost), transparent 72%),
     radial-gradient(ellipse 50% 45% at 88% 30%, rgba(160,140,212, 0.05), transparent 70%);
 }
 
-.services > .container,
-.gallery > .container {
+.services > .container {
   position: relative;
   z-index: 1;
 }
@@ -1407,7 +1401,7 @@ main section[id] {
 .service-media > img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   filter: contrast(1.02) brightness(1.04);
 }
 
@@ -1743,141 +1737,6 @@ main section[id] {
 
 .js [data-reveal="media"].brochure-item.is-visible:hover > img {
   transform: scale(1.03);
-}
-
-/* =========================================================
-   GALLERY - 6 IMAGES
-   ========================================================= */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(10px, 1.2vw, 16px);
-  counter-reset: gitem;
-}
-
-.gallery-item {
-  position: relative;
-  margin: 0;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border: 1px solid var(--photo-line-2);
-  background: var(--photo-panel);
-  --paper: var(--photo-paper);
-  counter-increment: gitem;
-}
-
-.gallery-item > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.02) brightness(1.03);
-}
-
-.gallery-item::after {
-  content: "0" counter(gitem);
-  position: absolute;
-  left: 14px;
-  bottom: 12px;
-  z-index: 2;
-  color: var(--paper);
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 0.22em;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.45s ease, transform 0.45s var(--ease-out);
-}
-
-.gallery-item::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(180deg, transparent 52%, rgba(5, 5, 6, 0.72));
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.gallery-item:hover::before,
-.gallery-item:hover::after {
-  opacity: 1;
-  transform: none;
-}
-
-.gallery-trigger {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-.gallery-trigger-icon {
-  width: 34px;
-  height: 34px;
-  padding: 8px;
-  color: var(--paper);
-  background: rgba(5, 5, 6, 0.55);
-  border: 1px solid rgba(244, 239, 232, 0.3);
-  border-radius: 50%;
-  opacity: 0;
-  transform: scale(0.7);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  transition: opacity 0.4s ease, transform 0.4s var(--ease-out), border-color 0.4s ease, background 0.4s ease;
-}
-
-.gallery-item:hover .gallery-trigger-icon,
-.gallery-trigger:focus-visible .gallery-trigger-icon {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.gallery-trigger:hover .gallery-trigger-icon {
-  border-color: color-mix(in srgb, var(--red) 60%, transparent);
-  background: color-mix(in srgb, var(--red) 30%, transparent);
-}
-
-.js [data-reveal="media"].gallery-item.is-visible:hover > img {
-  transform: scale(1.06);
-  filter: contrast(1.04) brightness(1.06);
-}
-
-.gallery-cta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 18px 28px;
-  margin-top: clamp(40px, 5vw, 64px);
-  padding: clamp(22px, 2.6vw, 30px) clamp(24px, 3vw, 34px);
-  border-radius: var(--radius);
-  background: var(--wash-1);
-}
-
-.gallery-cta-text {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  min-width: 0;
-}
-
-.gallery-cta-icon {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  color: var(--red);
-}
-
-.gallery-cta-text p {
-  margin: 0;
-  color: var(--paper-muted);
-  font-size: 0.96rem;
-  max-width: 48ch;
 }
 
 /* =========================================================
@@ -2280,167 +2139,6 @@ main section[id] {
 }
 
 /* =========================================================
-   LIGHTBOX DE GALERIA
-   ========================================================= */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 210;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
-}
-
-.lightbox.is-open {
-  visibility: visible;
-  opacity: 1;
-}
-
-.lightbox-overlay {
-  position: fixed;
-  inset: 0;
-  border: none;
-  padding: 0;
-  background: rgba(3, 3, 4, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  cursor: pointer;
-}
-
-.lightbox-panel {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 16px;
-  width: min(100%, 1080px);
-  max-height: calc(100vh - 40px);
-  transform: scale(0.96);
-  transition: transform 0.45s var(--ease-out);
-}
-
-.lightbox.is-open .lightbox-panel {
-  transform: none;
-}
-
-.lightbox-close {
-  position: absolute;
-  top: -50px;
-  right: 0;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 1px solid var(--line-2);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--paper);
-  cursor: pointer;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-}
-
-.lightbox-close:hover {
-  border-color: color-mix(in srgb, var(--red) 60%, transparent);
-  background: color-mix(in srgb, var(--red) 16%, transparent);
-  transform: rotate(90deg);
-}
-
-.lightbox-close svg {
-  width: 16px;
-  height: 16px;
-}
-
-.lightbox-stage {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.lightbox-frame {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  display: grid;
-  place-items: center;
-  max-height: min(72vh, 720px);
-  overflow: hidden;
-  border: 1px solid var(--line-2);
-  background: var(--panel);
-}
-
-.lightbox-image {
-  display: block;
-  width: 100%;
-  height: min(72vh, 720px);
-  object-fit: contain;
-  opacity: 0;
-  transform: scale(0.98);
-  transition: opacity 0.35s ease, transform 0.35s var(--ease-out);
-}
-
-.lightbox-image.is-loaded {
-  opacity: 1;
-  transform: none;
-}
-
-.lightbox-nav {
-  position: relative;
-  z-index: 2;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  padding: 0;
-  border: 1px solid var(--line-2);
-  border-radius: 50%;
-  background: rgba(16, 16, 18, 0.6);
-  color: var(--paper);
-  cursor: pointer;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s var(--ease-out);
-}
-
-.lightbox-nav:hover {
-  border-color: color-mix(in srgb, var(--red) 60%, transparent);
-  background: color-mix(in srgb, var(--red) 18%, transparent);
-}
-
-.lightbox-nav:active {
-  transform: scale(0.94);
-}
-
-.lightbox-nav svg {
-  width: 19px;
-  height: 19px;
-}
-
-.lightbox-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 0 4px;
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.lightbox-caption {
-  color: var(--paper-muted);
-}
-
-.lightbox-count {
-  flex-shrink: 0;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.06em;
-}
-
-/* =========================================================
    KEYFRAMES
    ========================================================= */
 @keyframes blink {
@@ -2766,28 +2464,12 @@ main section[id] {
     width: 100%;
   }
 
-  .why-us-cta .btn,
-  .gallery-cta .btn {
+  .why-us-cta .btn {
     width: 100%;
-  }
-
-  .gallery-cta {
-    flex-direction: column;
-    align-items: stretch;
   }
 
   .brochures-grid {
     grid-template-columns: 1fr;
-  }
-
-  /* Galeria: 2 columnas x 3 filas */
-  .gallery-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .gallery-item {
-    aspect-ratio: 1 / 1;
   }
 
   .contact-list li {
@@ -2848,52 +2530,6 @@ main section[id] {
 
   .wa-modal-option {
     padding: 16px;
-  }
-
-  .lightbox {
-    padding: 12px;
-  }
-
-  .lightbox-panel {
-    max-height: calc(100vh - 24px);
-  }
-
-  .lightbox-close {
-    top: -46px;
-    width: 36px;
-    height: 36px;
-  }
-
-  .lightbox-stage {
-    gap: 8px;
-  }
-
-  .lightbox-frame {
-    max-height: 60vh;
-  }
-
-  .lightbox-image {
-    height: 60vh;
-  }
-
-  .lightbox-nav {
-    width: 38px;
-    height: 38px;
-  }
-
-  .lightbox-nav svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .lightbox-meta {
-    font-size: 0.74rem;
-  }
-
-  .lightbox-caption {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   .loader-mark {
@@ -2979,15 +2615,6 @@ main section[id] {
 
   .services-cta p {
     margin-inline: auto;
-  }
-
-  .gallery-cta {
-    text-align: center;
-  }
-
-  .gallery-cta-text {
-    flex-direction: column;
-    gap: 10px;
   }
 
   .parallax-content {
@@ -3138,7 +2765,7 @@ main section[id] {
 }
 
 /* --- sobre fotografia: texto y acento claros --- */
-.hero,.site-header,.loader,.lightbox,.has-bg,.parallax-banner{color:var(--photo-text);--red:#cd68ea;--red-2:#ebd0f2;--red-dark:#bf1fec;--sage:#a08cd4;--gold:#db6cba;}
+.hero,.site-header,.loader,.has-bg,.parallax-banner{color:var(--photo-text);--red:#cd68ea;--red-2:#ebd0f2;--red-dark:#bf1fec;--sage:#a08cd4;--gold:#db6cba;}
 
 /* --- tercera tipografia: etiquetas y rotulos --- */
 :where(.eyebrow,.tag,.contact-label,.hero-social-label,.hero-typewriter-label,.brand-tagline,.nav-link,.footer-col h4,.footer-bottom-tag,.loader-tagline){font-family:var(--hw-acento)}
@@ -3183,8 +2810,7 @@ main section[id] {
         <ul>
           <li><a href="#inicio" class="nav-link"><span class="nav-link-index">01</span><span class="nav-link-text">Inicio</span></a></li>
           <li><a href="#servicios" class="nav-link"><span class="nav-link-index">02</span><span class="nav-link-text">Servicios</span></a></li>
-          <li><a href="#galeria" class="nav-link"><span class="nav-link-index">03</span><span class="nav-link-text">Galeria</span></a></li>
-          <li><a href="#contacto" class="nav-link"><span class="nav-link-index">04</span><span class="nav-link-text">Contacto</span></a></li>
+          <li><a href="#contacto" class="nav-link"><span class="nav-link-index">03</span><span class="nav-link-text">Contacto</span></a></li>
         </ul>
         <button type="button" class="btn btn-primary btn-nav" data-wa-trigger><span>Pedir por WhatsApp</span></button>
       </nav>
@@ -3428,66 +3054,6 @@ main section[id] {
         <h2 data-reveal>Recibimos tu archivo hoy y lo mandamos a imprimir sin rodeos.</h2>
       </div>
     </section>
-<section class="gallery" id="galeria">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-head-main">
-            <p class="eyebrow" data-reveal>Nuestro trabajo</p>
-            <h2 class="section-title" data-reveal>Lo que sale de <span class="text-gold">nuestras maquinas</span></h2>
-          </div>
-          <p class="section-desc" data-reveal>Cada impresion que entregamos representa un compromiso con la calidad y el volumen que tu negocio necesita. Aqui puedes ver una muestra de lo que producimos dia a dia en COPYLAND mx.</p>
-        </div>
-        <div class="gallery-grid" data-reveal-group>
-          <figure class="gallery-item" data-reveal="media">
-            <img src="img/11.jpg" alt="Pila de folletos impresos a color sobre mesa de trabajo" loading="lazy">
-            <button type="button" class="gallery-trigger" data-lightbox-open data-lightbox-index="0" aria-label="Ampliar imagen: Pila de folletos impresos a color sobre mesa de trabajo">
-              <svg class="gallery-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>
-            </button>
-          </figure>
-          <figure class="gallery-item" data-reveal="media">
-            <img src="img/12.jpg" alt="Detalle de impresion a color con texto e imagen nitidos" loading="lazy">
-            <button type="button" class="gallery-trigger" data-lightbox-open data-lightbox-index="1" aria-label="Ampliar imagen: Detalle de impresion a color con texto e imagen nitidos">
-              <svg class="gallery-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>
-            </button>
-          </figure>
-          <figure class="gallery-item" data-reveal="media">
-            <img src="img/13.jpg" alt="Carteles apilados listos para entrega al cliente" loading="lazy">
-            <button type="button" class="gallery-trigger" data-lightbox-open data-lightbox-index="2" aria-label="Ampliar imagen: Carteles apilados listos para entrega al cliente">
-              <svg class="gallery-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>
-            </button>
-          </figure>
-          <figure class="gallery-item" data-reveal="media">
-            <img src="img/14.jpg" alt="Vista general del area de impresion digital del taller" loading="lazy">
-            <button type="button" class="gallery-trigger" data-lightbox-open data-lightbox-index="3" aria-label="Ampliar imagen: Vista general del area de impresion digital del taller">
-              <svg class="gallery-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>
-            </button>
-          </figure>
-          <figure class="gallery-item" data-reveal="media">
-            <img src="img/15.jpg" alt="Operador revisando hojas recien impresas a color" loading="lazy">
-            <button type="button" class="gallery-trigger" data-lightbox-open data-lightbox-index="4" aria-label="Ampliar imagen: Operador revisando hojas recien impresas a color">
-              <svg class="gallery-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>
-            </button>
-          </figure>
-          <figure class="gallery-item" data-reveal="media">
-            <img src="img/16.jpg" alt="Cajas con pedido de impresion empacado para entrega" loading="lazy">
-            <button type="button" class="gallery-trigger" data-lightbox-open data-lightbox-index="5" aria-label="Ampliar imagen: Cajas con pedido de impresion empacado para entrega">
-              <svg class="gallery-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>
-            </button>
-          </figure>
-        </div>
-
-        <div class="gallery-cta" data-reveal>
-          <div class="gallery-cta-text">
-            <svg viewBox="0 0 24 24" class="gallery-cta-icon" aria-hidden="true"><path fill="currentColor" d="M4 5h16v2H4V5Zm0 6h16v2H4v-2Zm0 6h10v2H4v-2Z"/></svg>
-            <p>¿Necesitas impresión a color en cantidad? Manda tu archivo o escríbenos y te decimos cuándo está listo tu pedido.</p>
-          </div>
-          <button type="button" class="btn btn-outline" data-wa-trigger>
-            <span>Cotiza tu impresión</span>
-            <svg viewBox="0 0 24 24" class="btn-icon btn-icon--arrow" aria-hidden="true"><path fill="currentColor" d="M12 16.5 5 9.5 6.4 8.1l5.6 5.6 5.6-5.6L19 9.5Z"/></svg>
-          </button>
-        </div>
-      </div>
-    </section>
 <section class="contact has-bg" id="contacto">
       <div class="section-bg" style="background-image:url('img/10.jpg');" aria-hidden="true"></div>
       <div class="section-bg-veil" aria-hidden="true"></div>
@@ -3554,7 +3120,6 @@ main section[id] {
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#servicios">Servicios</a></li>
-          <li><a href="#galeria">Galeria</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </div>
@@ -3607,31 +3172,7 @@ main section[id] {
     </div>
   </div>
 
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button type="button" class="lightbox-overlay" data-lightbox-close aria-label="Cerrar"></button>
-    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="Galeria ampliada">
-      <button type="button" class="lightbox-close" data-lightbox-close aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12 19 6.4 17.6 5 12 10.6Z"/></svg>
-      </button>
-      <div class="lightbox-stage">
-        <button type="button" class="lightbox-nav lightbox-nav--prev" data-lightbox-prev aria-label="Imagen anterior">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.7 5.3 8 12l6.7 6.7 1.4-1.4L10.8 12l5.3-5.3Z"/></svg>
-        </button>
-        <div class="lightbox-frame">
-          <img src="" alt="" class="lightbox-image" id="lightbox-image">
-        </div>
-        <button type="button" class="lightbox-nav lightbox-nav--next" data-lightbox-next aria-label="Imagen siguiente">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m9.3 5.3-1.4 1.4L13.2 12l-5.3 5.3 1.4 1.4L16 12Z"/></svg>
-        </button>
-      </div>
-      <div class="lightbox-meta">
-        <span class="lightbox-caption" id="lightbox-caption"></span>
-        <span class="lightbox-count"><span id="lightbox-current">1</span> / <span id="lightbox-total">6</span></span>
-      </div>
-    </div>
-  </div>
 
-  
 <script>
 /* =========================================================
    CORE
@@ -3800,90 +3341,6 @@ document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (waModal?.classList.contains("is-open")) closeWaModal();
   if (body.classList.contains("nav-open")) closeNav();
-});
-
-/* =========================================================
-   LIGHTBOX DE GALERIA (carrusel a pantalla completa)
-   ========================================================= */
-const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightbox-image");
-const lightboxCaption = document.getElementById("lightbox-caption");
-const lightboxCurrent = document.getElementById("lightbox-current");
-const lightboxTotal = document.getElementById("lightbox-total");
-const lightboxCloseEls = document.querySelectorAll("[data-lightbox-close]");
-const lightboxPrevBtn = document.querySelector("[data-lightbox-prev]");
-const lightboxNextBtn = document.querySelector("[data-lightbox-next]");
-const lightboxTriggers = [...document.querySelectorAll("[data-lightbox-open]")];
-
-const lightboxSlides = [...document.querySelectorAll(".gallery-item img")].map((img) => ({
-  src: img.currentSrc || img.src,
-  alt: img.alt || ""
-}));
-
-let lightboxIndex = 0;
-let lightboxLastFocused = null;
-
-const renderLightboxSlide = () => {
-  if (!lightbox || !lightboxImage || !lightboxSlides.length) return;
-  const slide = lightboxSlides[lightboxIndex];
-  lightboxImage.classList.remove("is-loaded");
-
-  const applySlide = () => {
-    lightboxImage.src = slide.src;
-    lightboxImage.alt = slide.alt;
-    requestAnimationFrame(() => lightboxImage.classList.add("is-loaded"));
-  };
-
-  const preload = new Image();
-  preload.onload = applySlide;
-  preload.onerror = applySlide;
-  preload.src = slide.src;
-
-  if (lightboxCaption) lightboxCaption.textContent = slide.alt;
-  if (lightboxCurrent) lightboxCurrent.textContent = String(lightboxIndex + 1);
-  if (lightboxTotal) lightboxTotal.textContent = String(lightboxSlides.length);
-};
-
-const openLightbox = (index) => {
-  if (!lightbox || !lightboxSlides.length) return;
-  lightboxIndex = ((index % lightboxSlides.length) + lightboxSlides.length) % lightboxSlides.length;
-  lightboxLastFocused = document.activeElement;
-  renderLightboxSlide();
-  lightbox.classList.add("is-open");
-  lightbox.setAttribute("aria-hidden", "false");
-  body.classList.add("lightbox-open");
-  lightbox.querySelector(".lightbox-close")?.focus();
-};
-
-const closeLightbox = () => {
-  if (!lightbox) return;
-  lightbox.classList.remove("is-open");
-  lightbox.setAttribute("aria-hidden", "true");
-  body.classList.remove("lightbox-open");
-  if (lightboxLastFocused instanceof HTMLElement) lightboxLastFocused.focus();
-};
-
-const stepLightbox = (delta) => {
-  if (!lightboxSlides.length) return;
-  lightboxIndex = ((lightboxIndex + delta) % lightboxSlides.length + lightboxSlides.length) % lightboxSlides.length;
-  renderLightboxSlide();
-};
-
-lightboxTriggers.forEach((trigger) => {
-  trigger.addEventListener("click", () => {
-    openLightbox(Number(trigger.dataset.lightboxIndex || 0));
-  });
-});
-
-lightboxCloseEls.forEach((el) => el.addEventListener("click", closeLightbox));
-lightboxPrevBtn?.addEventListener("click", () => stepLightbox(-1));
-lightboxNextBtn?.addEventListener("click", () => stepLightbox(1));
-
-document.addEventListener("keydown", (event) => {
-  if (!lightbox?.classList.contains("is-open")) return;
-  if (event.key === "Escape") closeLightbox();
-  if (event.key === "ArrowLeft") stepLightbox(-1);
-  if (event.key === "ArrowRight") stepLightbox(1);
 });
 
 /* =========================================================
